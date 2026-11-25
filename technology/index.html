@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Technology | Werkbot</title>
+<meta name="description" content="How Werkbot works: agentic browsing, browser agents, a decision layer and orchestration, with a human at the Send button. What is in testing and what is planned.">
+<link rel="canonical" href="https://werkbot.xyz/technology">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f7f7f9">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Werkbot">
+<meta property="og:title" content="Technology | Werkbot">
+<meta property="og:description" content="Agentic browsing, browser agents, a decision layer and orchestration, with a human at the Send button.">
+<meta property="og:url" content="https://werkbot.xyz/technology">
+<meta property="og:image" content="https://werkbot.xyz/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Werkbot home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#2F5BEA"/><path d="M9.5 13 L14.5 27 L20 16.5 L25.5 27 L30.5 13" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="t">Werkbot</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/technology" aria-current="page">Technology</a></li>
+        <li><a class="pill" href="#waitlist">Waitlist</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="thead">
+    <div class="wrap">
+      <h1>Technology</h1>
+      <p class="lead">Werkbot is a small system of cooperating agents. One reads the job, one prepares the documents, several drive hidden browsers in parallel, and a decision layer settles every answer or hands it to a person. This page describes how it is built and what is still planned.</p>
+      <div class="legend">
+        <span><i class="dot"></i>In testing: built and being tried on real application forms</span>
+        <span><i class="dot hollow"></i>Planned: designed, not built yet</span>
+      </div>
+      <nav class="toc" aria-label="On this page">
+        <a href="#problem">Problem</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#stack">Agent stack</a>
+        <a href="#browsing">Agentic browsing</a>
+        <a href="#orchestration">Orchestration</a>
+        <a href="#decisions">Decision layer</a>
+        <a href="#handoff">Handoff and learning</a>
+        <a href="#safety">Safety</a>
+        <a href="#roadmap">Roadmap</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <figure class="dia" id="orchestration" aria-labelledby="dia-cap">
+      <!-- desktop -->
+      <svg class="h" viewBox="0 0 1136 492" role="img" aria-label="Orchestration diagram. A pasted link or a feed job enters the planner. The planner starts several browser agents in parallel. Each agent reports to a decision layer that answers from profile facts, the answer bank or a draft, or asks the person. The person reviews and presses Send. Answers the person gives are saved and reused.">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1.5 L8 5 L1 8.5" fill="none" stroke="#0b0b0f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <g font-size="12" fill="#636774">
+          <text x="0" y="14">Input</text>
+          <text x="190" y="14">Planner</text>
+          <text x="440" y="14">Browser agents, in parallel</text>
+          <text x="790" y="14">Decision layer</text>
+          <text x="1010" y="14">You</text>
+        </g>
+        <g transform="translate(0 28)">
+          <!-- input -->
+          <rect x="0" y="146" width="140" height="48" rx="12" fill="#f0f0f4"/>
+          <text x="16" y="175" font-size="14" font-weight="500" fill="#0b0b0f">Pasted link</text>
+          <rect x="0" y="214" width="140" height="48" rx="12" fill="#f0f0f4"/>
+          <text x="16" y="243" font-size="14" font-weight="500" fill="#0b0b0f">Jobs feed</text>
+          <g fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah)">
+            <path d="M140 170 H165 V204 H188"/>
+            <path d="M140 238 H165 V204"/>
+          </g>
+          <!-- planner -->
+          <rect x="190" y="40" width="200" height="328" rx="16" fill="#0b0b0f"/>
+          <circle cx="218" cy="76" r="12" fill="#2F5BEA"/>
+          <path d="M212.5 71.5 L216 81 L218 76.8 L220 81 L223.5 71.5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="238" y="81" font-size="16" font-weight="600" fill="#fff">Planner</text>
+          <g font-size="14" fill="#c4c6ce">
+            <text x="206" y="144">Finds the real apply page</text>
+            <text x="206" y="188">Detects the form system</text>
+            <text x="206" y="232">Prepares CV and note</text>
+            <text x="206" y="276">Queues and schedules</text>
+            <text x="206" y="320">Owns every state</text>
+          </g>
+          <!-- planner to agents -->
+          <g fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah)">
+            <path d="M390 204 H415 V60 H438"/>
+            <path d="M415 204 H438"/>
+            <path d="M390 204 H415 V348 H438"/>
+          </g>
+          <!-- tile A: filling -->
+          <g transform="translate(440 0)">
+            <rect width="300" height="120" rx="16" fill="#dfe9fa"/>
+            <text x="20" y="34" font-size="16" font-weight="600" fill="#0b0b0f">Data Intern</text>
+            <text x="20" y="54" font-size="13" fill="#454955">Example GmbH</text>
+            <g transform="translate(236 16)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(11,11,15,.1)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="#0b0b0f" stroke-width="3" stroke-linecap="round" stroke-dasharray="102.5 113.1" transform="rotate(-90 22 22)"/><text x="22" y="26" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0f">91</text></g>
+            <circle cx="26" cy="78" r="4" fill="#2F5BEA"/>
+            <text x="38" y="82" font-size="14" font-weight="500" fill="#0b0b0f">Filling</text>
+            <text x="280" y="82" font-size="13" text-anchor="end" fill="#454955">7 of 12 fields</text>
+            <rect x="20" y="98" width="260" height="4" rx="2" fill="rgba(11,11,15,.1)"/><rect x="20" y="98" width="152" height="4" rx="2" fill="#0b0b0f"/>
+          </g>
+          <!-- tile B: needs you -->
+          <g transform="translate(440 144)">
+            <rect width="300" height="120" rx="16" fill="#fbe0e4"/>
+            <text x="20" y="34" font-size="16" font-weight="600" fill="#0b0b0f">Product Analyst</text>
+            <text x="20" y="54" font-size="13" fill="#454955">Example GmbH</text>
+            <g transform="translate(236 16)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(11,11,15,.1)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="#0b0b0f" stroke-width="3" stroke-linecap="round" stroke-dasharray="105.1 113.1" transform="rotate(-90 22 22)"/><text x="22" y="26" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0f">93</text></g>
+            <circle cx="26" cy="78" r="4" fill="#9a3b4a"/>
+            <text x="38" y="82" font-size="14" font-weight="500" fill="#0b0b0f">Needs you</text>
+            <text x="280" y="82" font-size="13" text-anchor="end" fill="#454955">10 of 12 fields</text>
+            <rect x="20" y="98" width="260" height="4" rx="2" fill="rgba(11,11,15,.1)"/><rect x="20" y="98" width="217" height="4" rx="2" fill="#0b0b0f"/>
+          </g>
+          <!-- tile C: ready -->
+          <g transform="translate(440 288)">
+            <rect width="300" height="120" rx="16" fill="#dcf2e5"/>
+            <text x="20" y="34" font-size="16" font-weight="600" fill="#0b0b0f">Operations Associate</text>
+            <text x="20" y="54" font-size="13" fill="#454955">Sample Co</text>
+            <g transform="translate(236 16)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(11,11,15,.1)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="#0b0b0f" stroke-width="3" stroke-linecap="round" stroke-dasharray="99.5 113.1" transform="rotate(-90 22 22)"/><text x="22" y="26" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0f">88</text></g>
+            <circle cx="26" cy="78" r="4" fill="#17794f"/>
+            <text x="38" y="82" font-size="14" font-weight="500" fill="#0b0b0f">Ready for you</text>
+            <text x="280" y="82" font-size="13" text-anchor="end" fill="#454955">12 of 12 fields</text>
+            <rect x="20" y="98" width="260" height="4" rx="2" fill="rgba(11,11,15,.1)"/><rect x="20" y="98" width="260" height="4" rx="2" fill="#0b0b0f"/>
+          </g>
+          <!-- agents to decision -->
+          <g fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah)">
+            <path d="M740 60 H765 V204 H788"/>
+            <path d="M740 204 H788"/>
+            <path d="M740 348 H765 V204"/>
+          </g>
+          <!-- decision layer -->
+          <rect x="790" y="24" width="180" height="360" rx="16" fill="#fff" stroke="rgba(11,11,15,.14)"/>
+          <text x="806" y="62" font-size="16" font-weight="600" fill="#0b0b0f">Every field gets</text>
+          <text x="806" y="82" font-size="16" font-weight="600" fill="#0b0b0f">a source</text>
+          <g font-size="14" fill="#0b0b0f">
+            <rect x="802" y="112" width="156" height="44" rx="8" fill="#f0f0f4"/><text x="814" y="139" font-weight="600">1</text><text x="834" y="139">Profile facts</text>
+            <rect x="802" y="164" width="156" height="44" rx="8" fill="#f0f0f4"/><text x="814" y="191" font-weight="600">2</text><text x="834" y="191">Answer bank</text>
+            <rect x="802" y="216" width="156" height="44" rx="8" fill="#f0f0f4"/><text x="814" y="243" font-weight="600">3</text><text x="834" y="243">Draft, open text</text>
+            <rect x="802" y="268" width="156" height="44" rx="8" fill="#fbe0e4"/><text x="814" y="295" font-weight="600">4</text><text x="834" y="295">Ask you</text>
+          </g>
+          <text x="806" y="348" font-size="12" fill="#636774">Never guessed</text>
+          <!-- to you -->
+          <path d="M970 204 H1006" fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah)"/>
+          <circle cx="1073" cy="156" r="36" fill="#f0f0f4"/>
+          <text x="1073" y="162" font-size="16" font-weight="600" text-anchor="middle" fill="#0b0b0f">You</text>
+          <text x="1073" y="222" font-size="13" text-anchor="middle" fill="#454955">Read, edit</text>
+          <rect x="1025" y="240" width="96" height="40" rx="20" fill="#0b0b0f"/>
+          <text x="1073" y="265" font-size="14" font-weight="500" text-anchor="middle" fill="#fff">Send</text>
+          <!-- return loop -->
+          <path d="M1073 300 V428 H880 V388" fill="none" stroke="#2F5BEA" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#ah)"/>
+          <text x="1060" y="450" font-size="13" text-anchor="end" fill="#454955">Answers you give are saved and reused</text>
+        </g>
+      </svg>
+
+      <!-- phone -->
+      <svg class="v" viewBox="0 0 360 920" role="img" aria-label="Orchestration diagram, vertical. A pasted link or a feed job enters the planner. The planner runs several browser agents in parallel. A decision layer answers each field from a source or asks the person. The person reads, edits and presses Send. Answers you give are saved and reused.">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1.5 L8 5 L1 8.5" fill="none" stroke="#0b0b0f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <text x="0" y="12" font-size="12" fill="#636774">Input</text>
+        <rect x="0" y="24" width="170" height="44" rx="12" fill="#f0f0f4"/><text x="16" y="52" font-size="14" font-weight="500" fill="#0b0b0f">Pasted link</text>
+        <rect x="190" y="24" width="170" height="44" rx="12" fill="#f0f0f4"/><text x="206" y="52" font-size="14" font-weight="500" fill="#0b0b0f">Jobs feed</text>
+        <g fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah2)">
+          <path d="M85 68 V84 H180 V100"/><path d="M275 68 V84 H180"/>
+        </g>
+        <rect x="0" y="104" width="360" height="148" rx="16" fill="#0b0b0f"/>
+        <circle cx="28" cy="132" r="12" fill="#2F5BEA"/>
+        <path d="M22.5 127.5 L26 137 L28 132.8 L30 137 L33.5 127.5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="48" y="137" font-size="16" font-weight="600" fill="#fff">Planner</text>
+        <g font-size="14" fill="#c4c6ce">
+          <text x="16" y="168">Finds the real apply page</text>
+          <text x="16" y="188">Detects the form system</text>
+          <text x="16" y="208">Prepares CV and note</text>
+          <text x="16" y="228">Queues, schedules, owns every state</text>
+        </g>
+        <path d="M180 252 V280" fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah2)"/>
+        <text x="0" y="300" font-size="12" fill="#636774">Browser agents, in parallel</text>
+
+        <g transform="translate(0 312)">
+          <rect width="360" height="88" rx="16" fill="#dfe9fa"/>
+          <text x="16" y="30" font-size="16" font-weight="600" fill="#0b0b0f">Data Intern</text>
+          <text x="16" y="50" font-size="13" fill="#454955">Example GmbH</text>
+          <g transform="translate(298 12)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(11,11,15,.1)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="#0b0b0f" stroke-width="3" stroke-linecap="round" stroke-dasharray="102.5 113.1" transform="rotate(-90 22 22)"/><text x="22" y="26" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0f">91</text></g>
+          <circle cx="22" cy="68" r="4" fill="#2F5BEA"/><text x="34" y="72" font-size="14" font-weight="500" fill="#0b0b0f">Filling</text>
+          <text x="344" y="72" font-size="13" text-anchor="end" fill="#454955">7 of 12 fields</text>
+        </g>
+        <g transform="translate(0 412)">
+          <rect width="360" height="88" rx="16" fill="#fbe0e4"/>
+          <text x="16" y="30" font-size="16" font-weight="600" fill="#0b0b0f">Product Analyst</text>
+          <text x="16" y="50" font-size="13" fill="#454955">Example GmbH</text>
+          <g transform="translate(298 12)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(11,11,15,.1)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="#0b0b0f" stroke-width="3" stroke-linecap="round" stroke-dasharray="105.1 113.1" transform="rotate(-90 22 22)"/><text x="22" y="26" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0f">93</text></g>
+          <circle cx="22" cy="68" r="4" fill="#9a3b4a"/><text x="34" y="72" font-size="14" font-weight="500" fill="#0b0b0f">Needs you</text>
+          <text x="344" y="72" font-size="13" text-anchor="end" fill="#454955">10 of 12 fields</text>
+        </g>
+        <g transform="translate(0 512)">
+          <rect width="360" height="88" rx="16" fill="#dcf2e5"/>
+          <text x="16" y="30" font-size="16" font-weight="600" fill="#0b0b0f">Operations Associate</text>
+          <text x="16" y="50" font-size="13" fill="#454955">Sample Co</text>
+          <g transform="translate(298 12)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(11,11,15,.1)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="#0b0b0f" stroke-width="3" stroke-linecap="round" stroke-dasharray="99.5 113.1" transform="rotate(-90 22 22)"/><text x="22" y="26" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0f">88</text></g>
+          <circle cx="22" cy="68" r="4" fill="#17794f"/><text x="34" y="72" font-size="14" font-weight="500" fill="#0b0b0f">Ready for you</text>
+          <text x="344" y="72" font-size="13" text-anchor="end" fill="#454955">12 of 12 fields</text>
+        </g>
+        <path d="M180 600 V628" fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah2)"/>
+        <rect x="0" y="632" width="360" height="196" rx="16" fill="#fff" stroke="rgba(11,11,15,.14)"/>
+        <text x="16" y="660" font-size="16" font-weight="600" fill="#0b0b0f">Decision layer: every field gets a source</text>
+        <g font-size="14" fill="#0b0b0f">
+          <rect x="12" y="676" width="336" height="32" rx="8" fill="#f0f0f4"/><text x="24" y="697" font-weight="600">1</text><text x="44" y="697">Profile facts</text>
+          <rect x="12" y="714" width="336" height="32" rx="8" fill="#f0f0f4"/><text x="24" y="735" font-weight="600">2</text><text x="44" y="735">Answer bank</text>
+          <rect x="12" y="752" width="336" height="32" rx="8" fill="#f0f0f4"/><text x="24" y="773" font-weight="600">3</text><text x="44" y="773">Draft, open text only</text>
+          <rect x="12" y="790" width="336" height="32" rx="8" fill="#fbe0e4"/><text x="24" y="811" font-weight="600">4</text><text x="44" y="811">Ask you, never guessed</text>
+        </g>
+        <path d="M180 828 V852" fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah2)"/>
+        <circle cx="32" cy="884" r="28" fill="#f0f0f4"/><text x="32" y="890" font-size="15" font-weight="600" text-anchor="middle" fill="#0b0b0f">You</text>
+        <text x="76" y="889" font-size="14" fill="#454955">Read, edit, then</text>
+        <rect x="244" y="864" width="116" height="40" rx="20" fill="#0b0b0f"/><text x="302" y="889" font-size="14" font-weight="500" text-anchor="middle" fill="#fff">Send</text>
+      </svg>
+      <figcaption class="dia-cap" id="dia-cap">The system in one picture. Sample data, the numbers inside the rings are example match scores. Answers a person gives flow back into the answer bank and are reused on the next form.</figcaption>
+    </figure>
+  </div>
+
+  <section class="sec" id="problem">
+    <div class="wrap grid">
+      <div><p class="num">01</p><h2>The problem</h2></div>
+      <div class="prose">
+        <p><strong>Applying for a job is the same work, repeated.</strong> Every employer hosts its own form, often on a shared applicant tracking system, with its own fields, dropdowns, uploads and login walls. The same facts are typed again and again, and the same few questions come back in different words.</p>
+        <p>Automating it has a known failure. When a form asks something the tool cannot source, the tool guesses. A wrong answer about a work permit, a notice period or a salary is worse than an empty field, because the person only finds out after sending.</p>
+        <p>Werkbot is built around that failure. The agents do the typing and the reading. Every answer has a source, anything without one goes to the person, and only the person sends.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="pipeline">
+    <div class="wrap grid">
+      <div><p class="num">02</p><h2>How one application runs</h2></div>
+      <div class="prose">
+        <p>Each application is a single unit of work with a state. The same eight steps run for every one of them.</p>
+        <ol class="pipe">
+          <li><div><b>Intake</b><span class="d">Resolves a pasted link or a feed job to the real application page and detects which form system it uses.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Prepare the kit</b><span class="d">Tailors a one-page CV from the person's CV bank to the job text, and drafts a cover note when the form asks for one.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Read the form</b><span class="d">Takes the question list from a form system's public interface where one exists, and from the page structure in the browser otherwise.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Answer</b><span class="d">The decision layer settles every field with a source, or marks it as a question for the person.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Fill</b><span class="d">A hidden browser types, picks dropdown values and uploads the CV, then reads every value back and fixes any mismatch.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Needs you</b><span class="d">The run pauses on the field. The question appears in the side panel with its own reply box. The answer is saved and the fill continues.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Review and send</b><span class="d">Every answer is shown with its source, the CV and the note can be edited, and only a click sends.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Confirm, track, learn</b><span class="d">The confirmation page marks the application as sent. Following the employer's later emails, and learning from what the person changed before sending, are planned.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="stack">
+    <div class="wrap grid">
+      <div><p class="num">03</p><h2>The agent stack</h2></div>
+      <div class="prose">
+        <p>Six roles, each with one job and a narrow interface to the next. Keeping them separate means a model is only used where judgement is needed, and plain code does everything that must be exact.</p>
+        <div class="rows">
+          <div class="row"><h3>Planner</h3><p>Takes a link or a feed job, resolves the apply page, picks the adapter, schedules browser agents and owns the state of every application.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="row"><h3>Form reader</h3><p>Turns a page into a list of typed fields: text, dropdown, upload, consent. Cheapest source first, public question list before browser.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="row"><h3>Kit agent</h3><p>Writes the tailored CV and the cover note from the person's own material and the job text.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="row"><h3>Browser agent</h3><p>Drives one hidden browser session: fills, uploads, reads values back, streams frames to its tile and hands over on request.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="row"><h3>Decision agent</h3><p>Settles each answer from a source or raises a question. The next section describes its ladder.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="row"><h3>Tracker</h3><p>Reads the employer's confirmation and later emails and moves each application through sent, interview and rejected.</p><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="browsing">
+    <div class="wrap grid">
+      <div><p class="num">04</p><h2>Agentic browsing and browser agents</h2></div>
+      <div class="prose">
+        <p><strong>Werkbot drives a real browser, not a back door.</strong> That is why it works on the form an employer actually shows, including uploads, custom dropdowns and conditional questions. The browser is hidden. It never takes the foreground of the person's machine, and it streams frames to a tile so the person can watch, or take over, at any moment.</p>
+        <p>A form is filled by three layers, cheapest and most predictable first.</p>
+        <div class="rows">
+          <div class="row"><h3>Form system adapters</h3><p>Deterministic code per applicant tracking system. Fast, no model in the loop, and predictable. Greenhouse first.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="row"><h3>Learned label map</h3><p>Same form system, new company: the agent remembers which label means which profile field, so the next company needs fewer questions.</p><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+          <div class="row"><h3>General browser agent</h3><p>A model looks at the page and acts, for sites without an adapter. A successful run is saved as a replayable script, so the next run on that site needs no model.</p><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="orchestration-text">
+    <div class="wrap grid">
+      <div><p class="num">05</p><h2>Agent orchestration</h2></div>
+      <div class="prose">
+        <p>An application moves through a fixed set of states: queued, preparing, filling, needs you, ready for you, sending, sent, failed and withdrawn. The planner is the only component that changes a state, and it runs several browser agents at once, each in its own isolated session.</p>
+        <p>The <strong>parallel application grid</strong> shows all of them as tiles. Each tile carries a live frame of its browser, its state, how many fields are filled and the match ring for the job. A person can see five applications moving and step into whichever one has asked for help.</p>
+        <p style="margin-top:16px"><span class="tag"><i class="dot"></i>In testing</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="decisions">
+    <div class="wrap grid">
+      <div><p class="num">06</p><h2>The decision layer</h2></div>
+      <div class="prose">
+        <p>Every field is answered from the first rung of this ladder that has a source. The order is the point: exact data before remembered data, remembered data before drafted text, and a question before a guess.</p>
+        <ol class="ladder">
+          <li><div><b>Profile facts</b><span>Name, email, phone, links, university and dates. Exact values, no model involved.</span></div></li>
+          <li><div><b>Answer bank</b><span>Answers the person gave or edited before, matched by meaning, so two differently worded questions about weekly hours resolve to the same answer.</span></div></li>
+          <li><div><b>Model draft</b><span>Open text only, such as motivation, written from the profile and the job and shown for review.</span></div></li>
+          <li class="last"><div><b>Ask the person</b><span>Everything else. Work permit, visa, salary, start date, diversity questions and legal consents are never filled without a source.</span></div></li>
+        </ol>
+        <p class="never">Each answer keeps its source, so the review screen can show where every value came from. The rule is designed as code in the pipeline rather than an instruction to a model: <b>a field with no source is not filled.</b></p>
+        <p style="margin-top:16px"><span class="tag"><i class="dot"></i>In testing</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="handoff">
+    <div class="wrap grid">
+      <div><p class="num">07</p><h2>Human handoff and learning</h2></div>
+      <div class="prose">
+        <p>The agent is allowed to stop. Stopping well is a feature, because it turns a wrong guess into a one-line question.</p>
+        <div class="cols">
+          <div class="mini"><h3>Needs you</h3><p>The tile changes state and the question appears in the side panel. Captchas and sign-in walls the agent cannot pass take the same path.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="mini"><h3>Take control</h3><p>The person drives the hidden browser by hand, then gives it back. The agent carries on from the page the person left it on.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="mini"><h3>Remembering answers</h3><p>An answer typed into the side panel is stored with its source and can be edited later, so the same question is not asked twice.</p><span class="tag"><i class="dot"></i>In testing</span></div>
+          <div class="mini"><h3>Learning from corrections</h3><p>What the person changes between the draft and Send flows back into the answer bank, so each form asks less than the last.</p><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="safety">
+    <div class="wrap grid">
+      <div><p class="num">08</p><h2>Safety and control</h2></div>
+      <div class="prose">
+        <p>Werkbot acts on a person's behalf, so the limits are part of the design. These guards are built and under test.</p>
+        <ul class="guards">
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>Send is a click.</b> There is no automatic send. One send per application.</span></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>Checked before Send.</b> The page is still the application form, no required field is empty, and every value reads back as expected.</span></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>Never guesses.</b> A field with no source stays empty and becomes a question.</span></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>Hidden, not intrusive.</b> Browsers run in the background and never take the foreground of the machine.</span></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>Personal data stays local.</b> In the current version the CV bank, answers and contacts live in local files, outside any code repository.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="roadmap">
+    <div class="wrap grid">
+      <div><p class="num">09</p><h2>Roadmap</h2></div>
+      <div class="prose">
+        <p>Everything below is planned. None of it is shipped.</p>
+        <ul class="road">
+          <li><div><b>More form systems</b><span class="d">Adapters for Lever, Ashby, Personio and SmartRecruiters.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Multi-page forms and richer inputs</b><span class="d">Radio buttons, dates, multi-select and yes or no groups, and forms that span several pages.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Explore once, replay</b><span class="d">A general browser agent whose successful runs are compiled into scripts that replay without a model.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Role-aware CV writing</b><span class="d">Reads the job first, matches the tone of the employer and shows proof for each requirement.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Cloud browsers in an EU region</b><span class="d">Applications keep running while the person's laptop is closed, with data handling that fits European users.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Employer accounts and a private mailbox</b><span class="d">One application email per person, so verification codes and confirmations are caught automatically.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Open to other people</b><span class="d">A separate profile, configuration and keys per user.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="box">
+        <div><h2>Follow the launch</h2><p>Werkbot is launching soon. Leave an email and we write once, when it opens.</p></div>
+        <div id="waitlist">
+          <form class="waitlist" action="mailto:abhi@werkbot.xyz?subject=Werkbot%20waitlist" method="post" enctype="text/plain" novalidate>
+            <label for="wl-email" class="sr">Email address</label>
+            <input id="wl-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required><input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button class="btn" type="submit">Join the waitlist</button>
+          </form>
+          <p class="wl-msg" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Werkbot, launching soon</span>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="mailto:abhi@werkbot.xyz">abhi@werkbot.xyz</a>
+    </div>
+  </div>
+</footer>
+<script src="/assets/waitlist.js" defer></script>
+</body>
+</html>

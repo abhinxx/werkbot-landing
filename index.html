@@ -3,24 +3,136 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Werkbot</title>
-<meta name="description" content="Werkbot is launching soon.">
-<meta name="robots" content="noindex">
-<link rel="icon" href="/assets/favicon.svg">
-<style>
-@font-face{font-family:Inter;src:url(/assets/fonts/inter.woff2) format("woff2");font-weight:100 900}
-html,body{height:100%;margin:0}
-body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#fafafa;color:#0b0b0f;font:16px/1.5 Inter,system-ui,sans-serif;text-align:center;padding:24px}
-.mark{width:44px;height:44px;border-radius:50%;background:#2F5BEA;color:#fff;display:grid;place-items:center;font-weight:700;font-size:22px}
-h1{margin:0;font-size:clamp(34px,7vw,56px);letter-spacing:-.03em;font-weight:700}
-p{margin:0;color:#55555f}
-a{color:#2F5BEA;text-decoration:none}
-</style>
+<title>Werkbot | Paste a job link, press Send</title>
+<meta name="description" content="Werkbot fills in job applications in a hidden browser, asks before it guesses, and stops at Send. Launching soon. Join the waitlist.">
+<link rel="canonical" href="https://werkbot.xyz/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f7f7f9">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Werkbot">
+<meta property="og:title" content="Werkbot | Paste a job link, press Send">
+<meta property="og:description" content="Werkbot fills in job applications in a hidden browser, asks before it guesses, and stops at Send. Launching soon.">
+<meta property="og:url" content="https://werkbot.xyz/">
+<meta property="og:image" content="https://werkbot.xyz/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<div class="mark">W</div>
-<h1>Werkbot</h1>
-<p>Launching soon.</p>
-<p><a href="mailto:abhi@werkbot.xyz">abhi@werkbot.xyz</a></p>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Werkbot home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#2F5BEA"/><path d="M9.5 13 L14.5 27 L20 16.5 L25.5 27 L30.5 13" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="t">Werkbot</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/technology">Technology</a></li>
+        <li><a class="pill" href="#waitlist">Waitlist</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="status"><i class="dot"></i>Launching soon</span>
+        <h1>Paste a job link. Press Send.</h1>
+        <p class="sub">Werkbot fills in the application in a hidden browser, asks you before it guesses, and stops at Send. You read it, you press the button.</p>
+        <div id="waitlist">
+          <form class="waitlist" action="mailto:abhi@werkbot.xyz?subject=Werkbot%20waitlist" method="post" enctype="text/plain" novalidate>
+            <label for="wl-email" class="sr">Email address</label>
+            <input id="wl-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required><input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button class="btn" type="submit">Join the waitlist</button>
+          </form>
+          <p class="wl-msg" role="status" aria-live="polite"></p>
+        </div>
+        <div class="after">
+          <a class="link" href="/technology">Read how it works</a>
+          <span class="fine">One email, when Werkbot opens</span>
+        </div>
+      </div>
+
+      <div class="desk">
+        <div class="win" role="img" aria-label="Illustration: an application form being filled by Werkbot. Ten of twelve fields are filled. One question, about work permits, is highlighted because Werkbot does not know the answer and asks the person instead of guessing.">
+          <div class="win-bar">
+            <div class="win-dots"><i></i><i></i><i></i></div>
+            <div class="win-url">jobs.example.com/apply</div>
+            <div class="win-live"><i class="dot"></i>Filling</div>
+          </div>
+          <div class="win-body">
+            <div class="jobcard fill" style="--i:0">
+              <div>
+                <div class="loc">Berlin, Germany</div>
+                <h3>Product Analyst, working student</h3>
+                <div class="co">Example GmbH</div>
+              </div>
+              <div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="147.6 157.1" transform="rotate(-90 28 28)"/></svg><div>94%<small>match</small></div></div>
+            </div>
+            <div class="form">
+              <div class="field fill" style="--i:1"><label>Full name</label><div class="box"><span>Alex Example</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
+              <div class="field fill" style="--i:2"><label>Email</label><div class="box"><span>alex@example.com</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
+              <div class="field fill opt" style="--i:3"><label>University</label><div class="box"><span>Example University</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
+              <div class="field fill opt" style="--i:4"><label>Hours per week</label><div class="box"><span>20</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
+              <div class="field fill ask wide" style="--i:6">
+                <label>Do you need a work permit to work in Germany?</label>
+                <div class="box"><span>Waiting for you</span></div>
+                <div class="ask-note"><span class="tag">Asks before it guesses</span><span>This is not in the profile. Werkbot pauses here and puts the question to you.</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="win-foot">
+            <div class="prog">
+              <div class="t tnum"><span>10 of 12 fields</span><span>83%</span></div>
+              <div class="bar"><i></i></div>
+            </div>
+            <span class="send">Send, when you are ready</span>
+          </div>
+        </div>
+        <p class="caption">Illustration with sample data</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap">
+      <p class="eyebrow">How it goes</p>
+      <h2 style="max-width:24ch">The form is filled. The decision stays yours.</h2>
+      <div class="steps">
+        <div class="step y"><span class="n">01</span><h3>Paste a link</h3><p>Any job link, or pick one from your feed. Werkbot finds the real application page behind it.</p></div>
+        <div class="step b"><span class="n">02</span><h3>It fills the form</h3><p>A hidden browser types, picks and uploads. When a field has no source, it stops and asks you.</p></div>
+        <div class="step g"><span class="n">03</span><h3>You press Send</h3><p>Read every answer, edit anything, then send. Nothing goes out before that click.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="rule">
+        <h2>It never sends without you. It never guesses.</h2>
+        <div>
+          <p>Work permits, salary, start dates and legal consents are asked, never assumed.</p>
+          <p style="margin-top:16px"><a class="link" href="/technology">See the technology</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Werkbot, launching soon</span>
+    <div class="links">
+      <a href="/technology">Technology</a>
+      <a href="mailto:abhi@werkbot.xyz">abhi@werkbot.xyz</a>
+    </div>
+  </div>
+</footer>
+<script src="/assets/waitlist.js" defer></script>
 </body>
 </html>
