@@ -17,6 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/assets/demo.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -31,70 +32,129 @@
       <ul>
         <li><a href="/" aria-current="page">Home</a></li>
         <li><a href="/technology">Technology</a></li>
-        <li><a class="pill" href="#waitlist">Waitlist</a></li>
+        <li><a class="pill" href="#waitlist">Early access</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <section class="hero">
+  <section class="hero-v2">
     <div class="wrap">
-      <div>
+      <div class="head">
         <span class="status"><i class="dot"></i>Launching soon</span>
         <h1>The job search that runs itself.</h1>
         <p class="sub">Werkbot is a self-learning agent for your whole job hunt. It finds the roles, writes the CV, fills the forms, reaches out to people and tracks every reply. Each answer you give teaches it, so it asks less every time. You keep one click: Send.</p>
-        <div id="waitlist">
+      </div>
+
+      <div class="demo" id="demo" data-tab="0" role="group" aria-label="Animated walkthrough of Werkbot with sample data. Six steps: it finds and ranks jobs, applies in parallel, asks once, remembers the answer, tracks every reply, and what comes next.">
+        <div class="app">
+          <div class="app-bar">
+            <svg width="28" height="28" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#2F5BEA"/><path d="M9.5 13 L14.5 27 L20 16.5 L25.5 27 L30.5 13" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="app-nav" aria-hidden="true"><b>Jobs</b><b>Applications</b><b>Tracker</b></div>
+            <div class="live"><i class="dot"></i>Agent running</div>
+          </div>
+          <div class="views">
+
+            <div class="sc" data-s="0" aria-hidden="true">
+              <div class="hd"><h3>Jobs</h3><span class="muted tnum">128 roles found today, ranked for Alex</span></div>
+              <div class="chips in" style="--d:.1s"><u class="on">Best match</u><u>Berlin</u><u>Munich</u><u>Remote</u><u>Working student</u><u class="new">3 new</u><span class="sort">Sources: 9 boards, 4 company pages</span></div>
+              <div class="jobs">
+                <div class="jc y in" style="--d:.25s"><div><div class="loc">Berlin, Germany</div><h4>Product Analyst, working student<span class="newtag">New</span></h4><div class="co">Example GmbH</div><div class="why">Fits: SQL, analytics coursework, 20 h per week</div></div><div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="147.6 157.1" transform="rotate(-90 28 28)"/></svg><div>94%</div></div></div>
+                <div class="jc g in" style="--d:.4s"><div><div class="loc">Munich, Germany</div><h4>Data Intern, Growth<span class="newtag">New</span></h4><div class="co">Sample AG</div><div class="why">Fits: Python, dashboards, German B2</div></div><div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="141.4 157.1" transform="rotate(-90 28 28)"/></svg><div>90%</div></div></div>
+                <div class="jc b in" style="--d:.55s"><div><div class="loc">Remote, EU</div><h4>Operations Associate<span class="newtag">New</span></h4><div class="co">Demo Labs</div><div class="why">Fits: process work, two earlier roles</div></div><div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="132 157.1" transform="rotate(-90 28 28)"/></svg><div>84%</div></div></div>
+                <div class="jc p in" style="--d:.7s"><div><div class="loc">Hamburg, Germany</div><h4>Business Analyst, part time</h4><div class="co">Placeholder SE</div><div class="why">Fits: finance modules, Excel</div></div><div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="123 157.1" transform="rotate(-90 28 28)"/></svg><div>78%</div></div></div>
+                <div class="jc y in" style="--d:.85s"><div><div class="loc">Berlin, Germany</div><h4>Marketing Analytics Intern</h4><div class="co">Example Media</div><div class="why">Fits: campaign data, SQL</div></div><div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="117 157.1" transform="rotate(-90 28 28)"/></svg><div>74%</div></div></div>
+                <div class="jc g in" style="--d:1s"><div><div class="loc">Frankfurt, Germany</div><h4>Research Assistant</h4><div class="co">Sample Institute</div><div class="why">Fits: thesis topic, 15 h per week</div></div><div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="110 157.1" transform="rotate(-90 28 28)"/></svg><div>70%</div></div></div>
+              </div>
+            </div>
+
+            <div class="sc" data-s="1" aria-hidden="true">
+              <div class="hd"><h3>Applications</h3><span class="muted tnum">6 running side by side, hidden browsers</span></div>
+              <div class="tiles">
+                <div class="tile in" style="--d:.1s"><div class="tile-h"><div>Example GmbH<span>Product Analyst</span></div><i class="chip f">Filling</i></div><div class="tile-b"><div class="ln"><i></i><b style="--t:1.2s;--d:.5s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:1s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:1.5s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:2s"></b></div></div><div class="tile-f"><span class="tnum">9 of 12</span><div class="bar"><i style="--p:.75;--t:3s;--d:.4s"></i></div></div></div>
+                <div class="tile in" style="--d:.2s"><div class="tile-h"><div>Sample AG<span>Data Intern</span></div><i class="chip f">Filling</i></div><div class="tile-b"><div class="ln"><i></i><b style="--t:1.2s;--d:.7s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:1.2s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:1.7s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:2.2s"></b></div></div><div class="tile-f"><span class="tnum">7 of 10</span><div class="bar"><i style="--p:.7;--t:3s;--d:.6s"></i></div></div></div>
+                <div class="tile in" style="--d:.3s"><div class="tile-h"><div>Demo Labs<span>Operations Associate</span></div><i class="chip n">Needs you</i></div><div class="tile-b"><div class="ln done"><i></i><b></b></div><div class="ln done"><i></i><b></b></div><div class="ln ask"><i></i><b></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:2s"></b></div></div><div class="tile-f"><span class="tnum">8 of 11</span><div class="bar"><i style="--p:.73"></i></div></div></div>
+                <div class="tile in" style="--d:.4s"><div class="tile-h"><div>Placeholder SE<span>Business Analyst</span></div><i class="chip r">Ready</i></div><div class="tile-b"><div class="ln done"><i></i><b></b></div><div class="ln done"><i></i><b></b></div><div class="ln done"><i></i><b></b></div><div class="ln done"><i></i><b></b></div></div><div class="tile-f"><span class="tnum">12 of 12</span><div class="bar"><i style="--p:1"></i></div></div></div>
+                <div class="tile in" style="--d:.5s"><div class="tile-h"><div>Example Media<span>Analytics Intern</span></div><i class="chip f">Filling</i></div><div class="tile-b"><div class="ln"><i></i><b style="--t:1.2s;--d:.9s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:1.4s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:1.9s"></b></div><div class="ln"><i></i><b style="--t:1.2s;--d:2.4s"></b></div></div><div class="tile-f"><span class="tnum">5 of 9</span><div class="bar"><i style="--p:.55;--t:3s;--d:.8s"></i></div></div></div>
+                <div class="tile in" style="--d:.6s"><div class="tile-h"><div>Sample Institute<span>Research Assistant</span></div><i class="chip s">Sent</i></div><div class="tile-b"><div class="ln done"><i></i><b></b></div><div class="ln done"><i></i><b></b></div><div class="ln done"><i></i><b></b></div><div class="ln done"><i></i><b></b></div></div><div class="tile-f"><span class="tnum">10 of 10</span><div class="bar"><i style="--p:1"></i></div></div></div>
+              </div>
+            </div>
+
+            <div class="sc" data-s="2" aria-hidden="true">
+              <div class="hd"><h3>Needs you</h3><span class="muted">Demo Labs, Operations Associate</span></div>
+              <div class="two">
+                <div class="panel in" style="--d:.1s"><h5>8 of 11 fields filled, each with its source</h5>
+                  <div class="row2"><div>Full name<small>Profile</small></div><span class="badge g">Filled</span></div>
+                  <div class="row2"><div>Email<small>Profile</small></div><span class="badge g">Filled</span></div>
+                  <div class="row2"><div>Weekly hours<small>Answer you gave before</small></div><span class="badge g">Filled</span></div>
+                  <div class="row2"><div>Motivation<small>Drafted from your CV, claims checked</small></div><span class="badge y">Review</span></div>
+                  <div class="row2"><div>Work permit for Germany<small>No source found</small></div><span class="badge p">Asking you</span></div>
+                </div>
+                <div class="in" style="--d:.35s"><div class="q"><div class="co">Werkbot paused here instead of guessing</div><p>Do you need a work permit to work in Germany?</p><div class="typebox"><span class="typed" style="--t:1.4s;--d:1.4s">No, EU citizen</span></div><div class="cta-b"><span class="pillb pulse" style="--d:3.2s">Save and continue</span></div></div>
+                  <div class="toast in" style="--d:3.9s"><i class="ok"></i><span>Saved to your answers. The fill continues.</span></div></div>
+              </div>
+            </div>
+
+            <div class="sc" data-s="3" aria-hidden="true">
+              <div class="hd"><h3>Applications</h3><span class="muted">Next form, a different company</span></div>
+              <div class="two">
+                <div class="panel in" style="--d:.1s"><h5>Sample AG, Data Intern, 10 fields</h5>
+                  <div class="row2"><div>Full name<small>Profile</small></div><span class="badge g">Filled</span></div>
+                  <div class="row2"><div>Do you need a work permit to work in Germany?<small>Reused from your answer on Demo Labs</small></div><span class="badge b">Remembered</span></div>
+                  <div class="row2"><div>Hours per week<small>Answer you gave before</small></div><span class="badge g">Filled</span></div>
+                  <div class="row2"><div>Salary expectation<small>Never assumed</small></div><span class="badge p">Asking you</span></div>
+                </div>
+                <div class="in" style="--d:.5s"><div class="panel"><h5>The more you use it, the less it asks</h5>
+                  <div class="tg"><div><span>Questions asked, form 1</span><b class="tnum">6</b></div><div><span>Questions asked, form 2</span><b class="tnum">3</b></div><div><span>Questions asked, form 3</span><b class="tnum">1</b></div></div>
+                  <p class="fine" style="margin-top:12px">Sample numbers</p></div></div>
+              </div>
+            </div>
+
+            <div class="sc" data-s="4" aria-hidden="true">
+              <div class="hd"><h3>Tracker</h3><span class="muted">Replies are read for you</span></div>
+              <div class="cols">
+                <div class="col"><h6>Saved<span class="tnum">4</span></h6><div class="kc in" style="--d:.1s">Research Assistant<small>Sample Institute</small></div><div class="kc in" style="--d:.2s">Business Analyst<small>Placeholder SE</small></div></div>
+                <div class="col"><h6>Applied<span class="tnum">3</span></h6><div class="kc in" style="--d:.3s">Data Intern<small>Sample AG</small></div><div class="kc in" style="--d:.4s">Analytics Intern<small>Example Media</small></div></div>
+                <div class="col"><h6>Interview<span class="tnum">1</span></h6><div class="kc mv" style="--d:1.2s;background:var(--green)">Product Analyst<small>Example GmbH, invite received</small></div></div>
+                <div class="col"><h6>Offer<span class="tnum">0</span></h6></div>
+                <div class="col"><h6>Rejected<span class="tnum">1</span></h6><div class="kc in" style="--d:.5s">Operations Associate<small>Demo Labs</small></div></div>
+              </div>
+            </div>
+
+            <div class="sc" data-s="5" aria-hidden="true">
+              <div class="hd"><h3>Coming next</h3><span class="muted">Planned, not built yet</span></div>
+              <div class="three">
+                <div class="nx in" style="--d:.1s"><h4>Reaches out for you</h4><p>Finds people at the company and drafts a note. You approve every message.</p><div class="who"><i class="av"></i><span>Sample Recruiter<br><span style="font-weight:400;color:var(--ink-3)">Example GmbH</span></span></div><div class="draft">Hi, I applied for the Product Analyst role and would love to hear how the team works.</div><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+                <div class="nx in" style="--d:.25s"><h4>Runs on autopilot</h4><p>Works through your search inside the limits you set and asks you in batches.</p><div class="tg"><div><span>Daily limit</span><b class="tnum">10</b></div><div><span>Match bar</span><b class="tnum">80%</b></div><div><span>Pause when interviewing</span><b>On</b></div></div><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+                <div class="nx in" style="--d:.4s"><h4>Runs in the cloud</h4><p>Keeps applying while your laptop is closed, in an EU region, with your data kept private.</p><div class="tg"><div><span>Browsers</span><b class="tnum">12 running</b></div><div><span>Region</span><b>EU</b></div><div><span>Your laptop</span><b>Closed</b></div></div><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <ol class="steps2" id="demo-steps">
+          <li><button type="button" data-go="0"><span>01</span>Finds and ranks</button></li>
+          <li><button type="button" data-go="1"><span>02</span>Applies in parallel</button></li>
+          <li><button type="button" data-go="2"><span>03</span>Asks once</button></li>
+          <li><button type="button" data-go="3"><span>04</span>Remembers</button></li>
+          <li><button type="button" data-go="4"><span>05</span>Tracks replies</button></li>
+          <li><button type="button" data-go="5"><span>06</span>What comes next</button></li>
+        </ol>
+        <p class="cap">Walkthrough with sample data. Steps 01 to 04 are built and in testing; step 05 is partly built; step 06 is planned.</p>
+      </div>
+
+      <div class="early" id="waitlist">
+        <div><h2>Get early access</h2><p class="s">One email when Werkbot opens. No spam, no sharing your address.</p></div>
+        <div>
           <form class="waitlist" action="mailto:abhi@werkbot.xyz?subject=Werkbot%20waitlist" method="post" enctype="text/plain" novalidate>
             <label for="wl-email" class="sr">Email address</label>
             <input id="wl-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required><input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button class="btn" type="submit">Join the waitlist</button>
+            <button class="btn" type="submit">Get early access</button>
           </form>
           <p class="wl-msg" role="status" aria-live="polite"></p>
+          <p class="fine"><a class="link" href="/technology">Read how it works</a></p>
         </div>
-        <div class="after">
-          <a class="link" href="/technology">Read how it works</a>
-          <span class="fine">One email, when Werkbot opens</span>
-        </div>
-      </div>
-
-      <div class="desk">
-        <div class="win" role="img" aria-label="Illustration: an application form being filled by Werkbot. Ten of twelve fields are filled. One question, about work permits, is highlighted because Werkbot does not know the answer and asks the person instead of guessing.">
-          <div class="win-bar">
-            <div class="win-dots"><i></i><i></i><i></i></div>
-            <div class="win-url">jobs.example.com/apply</div>
-            <div class="win-live"><i class="dot"></i>Filling</div>
-          </div>
-          <div class="win-body">
-            <div class="jobcard fill" style="--i:0">
-              <div>
-                <div class="loc">Berlin, Germany</div>
-                <h3>Product Analyst, working student</h3>
-                <div class="co">Example GmbH</div>
-              </div>
-              <div class="ring"><svg viewBox="0 0 56 56"><circle class="trk" cx="28" cy="28" r="25"/><circle class="arc" cx="28" cy="28" r="25" stroke-dasharray="147.6 157.1" transform="rotate(-90 28 28)"/></svg><div>94%<small>match</small></div></div>
-            </div>
-            <div class="form">
-              <div class="field fill" style="--i:1"><label>Full name</label><div class="box"><span>Alex Example</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
-              <div class="field fill" style="--i:2"><label>Email</label><div class="box"><span>alex@example.com</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
-              <div class="field fill opt" style="--i:3"><label>University</label><div class="box"><span>Example University</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
-              <div class="field fill opt" style="--i:4"><label>Hours per week</label><div class="box"><span>20</span><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></div></div>
-              <div class="field fill ask wide" style="--i:6">
-                <label>Do you need a work permit to work in Germany?</label>
-                <div class="box"><span>Waiting for you</span></div>
-                <div class="ask-note"><span class="tag">Asks before it guesses</span><span>This is not in the profile. Werkbot pauses here and puts the question to you.</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="win-foot">
-            <div class="prog">
-              <div class="t tnum"><span>10 of 12 fields</span><span>83%</span></div>
-              <div class="bar"><i></i></div>
-            </div>
-            <span class="send">Send, when you are ready</span>
-          </div>
-        </div>
-        <p class="caption">Illustration with sample data</p>
       </div>
     </div>
   </section>
@@ -135,5 +195,6 @@
   </div>
 </footer>
 <script src="/assets/waitlist.js" defer></script>
+<script src="/assets/demo.js" defer></script>
 </body>
 </html>
