@@ -1,7 +1,7 @@
 // Waitlist form. Set WAITLIST_ENDPOINT to any provider URL that accepts a POST
 // with a form field named "email". While it is empty, the button opens a
 // pre-filled mail to abhi@werkbot.xyz instead.
-const WAITLIST_ENDPOINT = "";
+const WAITLIST_ENDPOINT = "/api/waitlist";
 const WAITLIST_MAILTO = "mailto:abhi@werkbot.xyz?subject=Werkbot%20waitlist";
 
 document.querySelectorAll("form.waitlist").forEach((form) => {
