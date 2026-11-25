@@ -41,7 +41,7 @@
   <div class="thead">
     <div class="wrap">
       <h1>Technology</h1>
-      <p class="lead">Werkbot is a small system of cooperating agents. One reads the job, one prepares the documents, several drive hidden browsers in parallel, and a decision layer settles every answer or hands it to a person. This page describes how it is built and what is still planned.</p>
+      <p class="lead">Werkbot is an autonomous, self-learning agent for the whole job search. A team of cooperating agents finds the roles, reads each job, writes the documents, drives hidden browsers in parallel, settles every answer or hands it to a person, and learns from every correction. This page describes how it is built, what is in testing, and where it is going.</p>
       <div class="legend">
         <span><i class="dot"></i>In testing: built and being tried on real application forms</span>
         <span><i class="dot hollow"></i>Planned: designed, not built yet</span>
@@ -63,7 +63,7 @@
   <div class="wrap">
     <figure class="dia" id="orchestration" aria-labelledby="dia-cap">
       <!-- desktop -->
-      <svg class="h" viewBox="0 0 1136 492" role="img" aria-label="Orchestration diagram. A pasted link or a feed job enters the planner. The planner starts several browser agents in parallel. Each agent reports to a decision layer that answers from profile facts, the answer bank or a draft, or asks the person. The person reviews and presses Send. Answers the person gives are saved and reused.">
+      <svg class="h" viewBox="0 0 1136 492" role="img" aria-label="Orchestration diagram. A job from the feed, or a link you add, enters the planner. The planner starts several browser agents in parallel. Each agent reports to a decision layer that answers from profile facts, the answer bank or a draft, or asks the person. The person reviews and presses Send. Answers the person gives are saved and reused.">
         <defs>
           <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1.5 L8 5 L1 8.5" fill="none" stroke="#0b0b0f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
         </defs>
@@ -77,7 +77,7 @@
         <g transform="translate(0 28)">
           <!-- input -->
           <rect x="0" y="146" width="140" height="48" rx="12" fill="#f0f0f4"/>
-          <text x="16" y="175" font-size="14" font-weight="500" fill="#0b0b0f">Pasted link</text>
+          <text x="16" y="175" font-size="14" font-weight="500" fill="#0b0b0f">Link you add</text>
           <rect x="0" y="214" width="140" height="48" rx="12" fill="#f0f0f4"/>
           <text x="16" y="243" font-size="14" font-weight="500" fill="#0b0b0f">Jobs feed</text>
           <g fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah)">
@@ -166,12 +166,12 @@
       </svg>
 
       <!-- phone -->
-      <svg class="v" viewBox="0 0 360 920" role="img" aria-label="Orchestration diagram, vertical. A pasted link or a feed job enters the planner. The planner runs several browser agents in parallel. A decision layer answers each field from a source or asks the person. The person reads, edits and presses Send. Answers you give are saved and reused.">
+      <svg class="v" viewBox="0 0 360 920" role="img" aria-label="Orchestration diagram, vertical. A job from the feed, or a link you add, enters the planner. The planner runs several browser agents in parallel. A decision layer answers each field from a source or asks the person. The person reads, edits and presses Send. Answers you give are saved and reused.">
         <defs>
           <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1.5 L8 5 L1 8.5" fill="none" stroke="#0b0b0f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
         </defs>
         <text x="0" y="12" font-size="12" fill="#636774">Input</text>
-        <rect x="0" y="24" width="170" height="44" rx="12" fill="#f0f0f4"/><text x="16" y="52" font-size="14" font-weight="500" fill="#0b0b0f">Pasted link</text>
+        <rect x="0" y="24" width="170" height="44" rx="12" fill="#f0f0f4"/><text x="16" y="52" font-size="14" font-weight="500" fill="#0b0b0f">Link you add</text>
         <rect x="190" y="24" width="170" height="44" rx="12" fill="#f0f0f4"/><text x="206" y="52" font-size="14" font-weight="500" fill="#0b0b0f">Jobs feed</text>
         <g fill="none" stroke="#0b0b0f" stroke-width="1.5" marker-end="url(#ah2)">
           <path d="M85 68 V84 H180 V100"/><path d="M275 68 V84 H180"/>
@@ -238,6 +238,7 @@
         <p><strong>Applying for a job is the same work, repeated.</strong> Every employer hosts its own form, often on a shared applicant tracking system, with its own fields, dropdowns, uploads and login walls. The same facts are typed again and again, and the same few questions come back in different words.</p>
         <p>Automating it has a known failure. When a form asks something the tool cannot source, the tool guesses. A wrong answer about a work permit, a notice period or a salary is worse than an empty field, because the person only finds out after sending.</p>
         <p>Werkbot is built around that failure. The agents do the typing and the reading. Every answer has a source, anything without one goes to the person, and only the person sends.</p>
+        <p><strong>The goal is larger than one form.</strong> Werkbot is meant to run the whole search: it learns who you are once, watches every source, applies in parallel, reaches out to the people behind each role and follows every reply. Each answer you give and each edit you make teaches it, so over time it needs you only for the decisions that are yours.</p>
       </div>
     </div>
   </section>
@@ -248,14 +249,14 @@
       <div class="prose">
         <p>Each application is a single unit of work with a state. The same eight steps run for every one of them.</p>
         <ol class="pipe">
-          <li><div><b>Intake</b><span class="d">Resolves a pasted link or a feed job to the real application page and detects which form system it uses.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
+          <li><div><b>Intake</b><span class="d">Resolves a job from the feed, or a link you add, to the real application page and detects which form system it uses.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
           <li><div><b>Prepare the kit</b><span class="d">Tailors a one-page CV from the person's CV bank to the job text, and drafts a cover note when the form asks for one.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
           <li><div><b>Read the form</b><span class="d">Takes the question list from a form system's public interface where one exists, and from the page structure in the browser otherwise.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
           <li><div><b>Answer</b><span class="d">The decision layer settles every field with a source, or marks it as a question for the person.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
           <li><div><b>Fill</b><span class="d">A hidden browser types, picks dropdown values and uploads the CV, then reads every value back and fixes any mismatch.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
           <li><div><b>Needs you</b><span class="d">The run pauses on the field. The question appears in the side panel with its own reply box. The answer is saved and the fill continues.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
           <li><div><b>Review and send</b><span class="d">Every answer is shown with its source, the CV and the note can be edited, and only a click sends.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
-          <li><div><b>Confirm, track, learn</b><span class="d">The confirmation page marks the application as sent. Following the employer's later emails, and learning from what the person changed before sending, are planned.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Confirm, track, learn</b><span class="d">The confirmation page marks the application as sent, and what the person changed before sending flows back into the answer bank. Following the employer's later emails to track interviews and rejections is next.</span></div><span class="tag"><i class="dot"></i>In testing</span></li>
         </ol>
       </div>
     </div>
@@ -330,7 +331,7 @@
           <div class="mini"><h3>Needs you</h3><p>The tile changes state and the question appears in the side panel. Captchas and sign-in walls the agent cannot pass take the same path.</p><span class="tag"><i class="dot"></i>In testing</span></div>
           <div class="mini"><h3>Take control</h3><p>The person drives the hidden browser by hand, then gives it back. The agent carries on from the page the person left it on.</p><span class="tag"><i class="dot"></i>In testing</span></div>
           <div class="mini"><h3>Remembering answers</h3><p>An answer typed into the side panel is stored with its source and can be edited later, so the same question is not asked twice.</p><span class="tag"><i class="dot"></i>In testing</span></div>
-          <div class="mini"><h3>Learning from corrections</h3><p>What the person changes between the draft and Send flows back into the answer bank, so each form asks less than the last.</p><span class="tag"><i class="dot hollow"></i>Planned</span></div>
+          <div class="mini"><h3>Learning from corrections</h3><p>What the person changes between the draft and Send flows back into the answer bank, so each form asks less than the last.</p><span class="tag"><i class="dot"></i>In testing</span></div>
         </div>
       </div>
     </div>
@@ -358,8 +359,10 @@
       <div class="prose">
         <p>Everything below is planned. None of it is shipped.</p>
         <ul class="road">
-          <li><div><b>More form systems</b><span class="d">Adapters for Lever, Ashby, Personio and SmartRecruiters.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
-          <li><div><b>Multi-page forms and richer inputs</b><span class="d">Radio buttons, dates, multi-select and yes or no groups, and forms that span several pages.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>More form systems</b><span class="d">Adapters for Lever, Ashby, Personio, SmartRecruiters, Workday and SuccessFactors.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Outreach to the people behind each role</b><span class="d">Finds people at the company, drafts a note for you to approve, and finds a recruiter email where one exists. You approve every message.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Autopilot for the whole search</b><span class="d">Runs on a schedule inside the limits you set: daily caps, a match bar, a per-company limit and a pause when a company is interviewing you. You approve in batches.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
+          <li><div><b>Shared form memory</b><span class="d">A form layout or label learned once is reused for the next person on the same system, so every new user starts with a smarter agent. Personal answers stay personal.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
           <li><div><b>Explore once, replay</b><span class="d">A general browser agent whose successful runs are compiled into scripts that replay without a model.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
           <li><div><b>Role-aware CV writing</b><span class="d">Reads the job first, matches the tone of the employer and shows proof for each requirement.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>
           <li><div><b>Cloud browsers in an EU region</b><span class="d">Applications keep running while the person's laptop is closed, with data handling that fits European users.</span></div><span class="tag"><i class="dot hollow"></i>Planned</span></li>

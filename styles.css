@@ -127,12 +127,12 @@ h1,h2{text-wrap:balance}
 h2{font-size:40px;line-height:1.1;font-weight:600;letter-spacing:-.03em}
 h3{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.01em}
 .lead{font-size:20px;line-height:30px;color:var(--ink-2)}
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:48px}
+.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:48px}
 .step{border-radius:16px;padding:24px;min-height:208px;display:flex;flex-direction:column}
 .step .n{font-family:var(--mono);font-size:13px;line-height:16px;color:var(--ink-2);margin-bottom:0}
 .step h3{font-size:24px;line-height:28px;letter-spacing:-.02em;margin:48px 0 8px}
 .step p{font-size:15px;line-height:22px;color:var(--ink-2)}
-.step.y{background:var(--yellow)}.step.b{background:var(--blue)}.step.g{background:var(--green)}
+.step.y{background:var(--yellow)}.step.b{background:var(--blue)}.step.g{background:var(--green)}.step.p{background:var(--pink)}
 
 .rule{background:var(--ink);color:#fff;border-radius:24px;padding:64px;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,3fr);gap:48px;align-items:end}
 .rule h2{font-size:44px;max-width:20ch}

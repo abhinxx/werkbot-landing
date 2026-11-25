@@ -11,7 +11,7 @@ const WELCOME_TEXT = `Hi,
 
 You are on the Werkbot waitlist. Thank you.
 
-Werkbot applies to jobs for you in a background browser. It fills the form, asks you when it does not know an answer instead of guessing, and waits for your Send before anything leaves.
+Werkbot is a self-learning agent for your whole job search. It finds the roles, writes the CV, fills the forms in a background browser, and learns from every answer you give, so it asks less each time. It never guesses and never sends without your click.
 
 We are building it now. When early access opens, you will get one email from this address.
 
@@ -26,7 +26,7 @@ const WELCOME_HTML = `<!doctype html><html><body style="margin:0;padding:24px;ba
 <div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #ececf0;border-radius:16px;padding:32px;line-height:1.55;font-size:16px;">
 <p style="margin:0 0 16px;">Hi,</p>
 <p style="margin:0 0 16px;">You are on the Werkbot waitlist. Thank you.</p>
-<p style="margin:0 0 16px;">Werkbot applies to jobs for you in a background browser. It fills the form, asks you when it does not know an answer instead of guessing, and waits for your Send before anything leaves.</p>
+<p style="margin:0 0 16px;">Werkbot is a self-learning agent for your whole job search. It finds the roles, writes the CV, fills the forms in a background browser, and learns from every answer you give, so it asks less each time. It never guesses and never sends without your click.</p>
 <p style="margin:0 0 16px;">We are building it now. When early access opens, you will get one email from this address.</p>
 <p style="margin:0 0 24px;color:#5f6470;">If you want to talk, reply to this message. It reaches me directly. If you want off the list, reply with &quot;remove&quot;.</p>
 <p style="margin:0;">Abhi<br><a href="https://werkbot.xyz" style="color:#2F5BEA;text-decoration:none;">werkbot.xyz</a></p>
